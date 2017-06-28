@@ -1,4 +1,5 @@
 #! /usr/bin/ruby -w 
+# -*- coding: UTF-8 -*-
 
 require 'socket'      # Sockets 是标准库
 
@@ -17,6 +18,6 @@ s.close               # 关闭 socket
 
 =end
 
-req = EtcRequest.new("config.xml", 900)
+req = EtcRequest.new("read_A1.xml", 900)
 req.start_request()
 

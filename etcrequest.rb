@@ -4,12 +4,19 @@ class EtcRequest
 
     @@ip= 'localhost'
     @@port = 2000;
+    @@template_base_dir = "./request_template/normal/";
+    @@output_base_dir = "./output/normal/";
 
-    def initialize(file, code)
-        #@requestfile, @height = w, h
-        @requestfile = file
+    def initialize(file, expcode)
+	@requestfile = file
         @outfile = file.delete(".xml") + ".out"
-	@expectcode = code  # expect response code , 900~999
+
+	@requestfile = "#{@@template_base_dir}" +  @requestfile
+	puts @requestfile
+
+	@outfile = @@output_base_dir +  @outfile
+	puts @outfile
+	@expect_code = expcode  # expect response code , 900~999
 	#@sock = TCPSocket.open(@@ip, @@port)
         @sock = nil
     end
@@ -41,13 +48,22 @@ class EtcRequest
 	while line = xmlfile.gets
 	    @sock.puts(line.chomp)
 	end
-
-	while line = @sock.gets
-	    output.puts(line.chomp)
-	    puts line
-	end
-
-	s.close()
+     
+        begin 
+            while line = @sock.gets
+    	    output.puts(line.chomp)
+    	    puts line
+    	    end
+        rescue Exception =>e
+	    puts "ERROR: read socket error : " + "#{@requestfile}"; #in some case it will encounter conn reset by peer exp.
+            puts e.message
+	    puts e.backtrace.inspect
+	    @sock.close()
+	    return 
+        end 
+	
+	puts  "return 0 from the remote socket , ready to close it"
+	@sock.close()
     end
 
     def set_ip_port(ip, port)
@@ -57,7 +73,6 @@ class EtcRequest
     end
  
     def verify_result()
-
 
     end
 end

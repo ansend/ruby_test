@@ -7,7 +7,7 @@
 		<default_offset>0</default_offset>
 		<threads>10</threads>
 		<subscribe_table>
-			<tbl>bs2_file</tbl>
+			<tbl>XML字段长度错误</tbl>
 		</subscribe_table>
 
 	</msgclient>
@@ -23,5 +23,5 @@
 
 </conf>
 
-Tue Jun 27 16:53:37 2017
+Wed Jun 28 16:06:13 2017
 Closing the connection. Bye!
