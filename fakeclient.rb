@@ -7,8 +7,6 @@ port = 2000
 =begin 
 s = TCPSocket.open(hostname, port)
 
-
-
 while line = s.gets   # 从 socket 中读取每行数据
   puts line.chop      # 打印到终端
 end
@@ -22,15 +20,38 @@ class EtcRequest
     @@ip= 'localhost'
     @@port = 2000;
 
-    def initialize(file)
-          #@requestfile, @height = w, h
+    def initialize(file, code)
+        #@requestfile, @height = w, h
         @requestfile = file
         @outfile = file.delete(".xml") + ".out"
-	@sock = TCPSocket.open(@@ip, @@port)
+	@expectcode = code  # expect response code , 900~999
+	#@sock = TCPSocket.open(@@ip, @@port)
+        @sock = nil
     end
 
     def start_request()
-        xmlfile = File.new("#{@requestfile}")       
+ 
+        begin 
+	    @sock = TCPSocket.open(@@ip, @@port)
+        rescue Exception => e
+
+            puts "ERROR: connection to server failed"
+	    puts e.message
+	    puts e.backtrace.inspect
+	    return
+	end
+
+        begin
+            xmlfile = File.new("#{@requestfile}")       
+            if xmlfile
+	       puts "open file : " + "#{@requestfile}" + "sucessfullly"
+	    end
+	rescue Exception => e
+	    puts "ERROR: not existing request file: " + "#{@requestfile}";
+	    puts e.message
+	    puts e.backtrace.inspect
+	    return
+	end
         output = File.new("#{@outfile}", 'w+')       
 	while line = xmlfile.gets
 	    @sock.puts(line.chomp)
@@ -49,9 +70,13 @@ class EtcRequest
          @@ip = ip;
 	 @@port = port;
     end
+ 
+    def verify_result()
 
+
+    end
 end
 
-req = EtcRequest.new("config.xml")
+req = EtcRequest.new("config.xml", 900)
 req.start_request()
 

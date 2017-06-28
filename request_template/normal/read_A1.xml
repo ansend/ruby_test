@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Message>
+<Head>
+<TransName>WXYH01</TransName>
+<TransactionTimestamp>2016-04-19 18:51:31</TransactionTimestamp>
+<ChannelId>02</ChannelId>
+<SeqNo>101384257</SeqNo>
+<ComId>A1</ComId>
+</Head>
+<Body>
+<UserName>王世骏</UserName>
+<IdNo>650105197506242219</IdNo>
+<MobilePhone>15112121121</MobilePhone>
+</Body>
+</Message>
