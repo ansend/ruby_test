@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<conf>
+	<msgclient>
+		<name>msgclient_test</name>
+		<url>127.0.0.1:15320</url>
+		<data>/data/msgclient</data>
+		<default_offset>0</default_offset>
+		<threads>10</threads>
+		<subscribe_table>
+			<tbl>bs2_file</tbl>
+		</subscribe_table>
+
+	</msgclient>
+	
+	<mysql>
+		<host>172.19.32.90</host>
+		<port>8810</port>
+		<database>test</database>
+		<charset>utf8</charset>
+		<user>myshard</user>
+		<passwd>myshard</passwd>
+	</mysql>
+
+</conf>
+
