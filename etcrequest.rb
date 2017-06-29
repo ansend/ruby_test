@@ -2,10 +2,20 @@
 
 class EtcRequest
 
-    @@ip= 'localhost'
-    @@port = 2000;
+    @@ip= '10.1.5.154'
+    @@port = 20170;
+    #@@ip= 'localhost'
+    #@@port = 2000;
     @@template_base_dir = "./request_template/normal/";
     @@output_base_dir = "./output/normal/";
+
+    def EtcRequest.init_config(ip, port, tmp_base_dir, out_base_dir)
+   
+        @@ip = ip
+	@@port = port
+	@@template_base_dir = tmp_base_dir
+	@@output_base_dir = out_base_dir
+    end
 
     def initialize(file, expcode)
 	@requestfile = file
@@ -21,8 +31,18 @@ class EtcRequest
         @sock = nil
     end
 
-    def start_request()
+    def run_case()
+        send_packet()
+	recv_packet()
+	verify_result()
+    end
+
+########################################################
+# start to send packet to server
+########################################################
+    def send_packet()
  
+        puts "INFO: start to connecting to server"
         begin 
 	    @sock = TCPSocket.open(@@ip, @@port)
         rescue Exception => e
@@ -32,7 +52,7 @@ class EtcRequest
 	    puts e.backtrace.inspect
 	    return
 	end
-
+        puts "Info: connection established "
         begin
             xmlfile = File.new("#{@requestfile}")       
             if xmlfile
@@ -44,11 +64,20 @@ class EtcRequest
 	    puts e.backtrace.inspect
 	    return
 	end
-        output = File.new("#{@outfile}", 'w+')       
+
 	while line = xmlfile.gets
 	    @sock.puts(line.chomp)
 	end
-     
+
+	puts "INFO: sending packet done"
+    end
+
+########################################################
+# recv pcket from server and save in output file
+########################################################
+    def recv_packet()
+        
+        output = File.new("#{@outfile}", 'w+')       
         begin 
             while line = @sock.gets
     	    output.puts(line.chomp)
@@ -61,8 +90,8 @@ class EtcRequest
 	    @sock.close()
 	    return 
         end 
-	
-	puts  "return 0 from the remote socket , ready to close it"
+	puts "INFO: packet recv done"
+	#puts  "return 0 from the remote socket , ready to close it"
 	@sock.close()
     end
 
@@ -72,6 +101,9 @@ class EtcRequest
 	 @@port = port;
     end
  
+########################################################
+# verfiy the expected the result.
+########################################################
     def verify_result()
 
     end

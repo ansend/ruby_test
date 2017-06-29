@@ -19,5 +19,5 @@ s.close               # 关闭 socket
 =end
 
 req = EtcRequest.new("read_A1.xml", 900)
-req.start_request()
+req.run_case()
 
