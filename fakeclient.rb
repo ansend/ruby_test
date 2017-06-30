@@ -19,5 +19,6 @@ s.close               # 关闭 socket
 =end
 
 req = EtcRequest.new("read_A1.xml", 900)
+#req = FragSendEtcRequest.new("read_A1.xml", 900)
 req.run_case()
 

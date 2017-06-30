@@ -13,6 +13,8 @@ loop {                         # 永久运行服务
   line = 1
   for i in 0..100 # firstly read out all the request from client.
       line = client.gets    # here simulate read the client request.
+      puts line
+      puts "#{i}" + "times"
       if ( line =~ /<\/Message>(.*)/ || line =~ /<\/Conf>(.*)/ )
          puts "at end of the request"
       break

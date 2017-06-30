@@ -2,10 +2,10 @@
 
 class EtcRequest
 
-    @@ip= '10.1.5.154'
-    @@port = 20170;
-    #@@ip= 'localhost'
-    #@@port = 2000;
+   # @@ip= '10.1.3.55'
+   # @@port = 20170;
+    @@ip= 'localhost'
+    @@port = 2000;
     @@template_base_dir = "./request_template/normal/";
     @@output_base_dir = "./output/normal/";
 
@@ -64,11 +64,12 @@ class EtcRequest
 	    puts e.backtrace.inspect
 	    return
 	end
-
+        packet = ""
 	while line = xmlfile.gets
-	    @sock.puts(line.chomp)
+	    packet = packet + line.chomp   
 	end
 
+	    @sock.puts(packet)
 	puts "INFO: sending packet done"
     end
 
@@ -109,3 +110,44 @@ class EtcRequest
     end
 end
 
+
+#*******************************************************
+# sub class to redefine the fragmented send_packet 
+#********************************************************
+
+class FragSendEtcRequest < EtcRequest
+########################################################
+# redefine start to send packet to server
+########################################################
+    def send_packet()
+ 
+        puts "INFO: start to connecting to server"
+        begin 
+	    @sock = TCPSocket.open(@@ip, @@port)
+        rescue Exception => e
+
+            puts "ERROR: connection to server failed"
+	    puts e.message
+	    puts e.backtrace.inspect
+	    return
+	end
+        puts "Info: connection established "
+        begin
+            xmlfile = File.new("#{@requestfile}")       
+            if xmlfile
+	       puts "open file : " + "#{@requestfile}" + "sucessfullly"
+	    end
+	rescue Exception => e
+	    puts "ERROR: not existing request file: " + "#{@requestfile}";
+	    puts e.message
+	    puts e.backtrace.inspect
+	    return
+	end
+	while line = xmlfile.gets
+	    @sock.puts(line.chomp)
+	end
+
+	puts "INFO: sending packet done"
+    end
+
+end
