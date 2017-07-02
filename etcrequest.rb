@@ -29,6 +29,9 @@ class EtcRequest
 	@expect_code = expcode  # expect response code , 900~999
 	#@sock = TCPSocket.open(@@ip, @@port)
         @sock = nil
+	@output = nil
+	@recode = ""
+	@remsg = ""
     end
 
     def run_case()
@@ -77,13 +80,32 @@ class EtcRequest
 # recv pcket from server and save in output file
 ########################################################
     def recv_packet()
-        
-        output = File.new("#{@outfile}", 'w+')       
+        times = 0;
+        @output = File.new("#{@outfile}", 'w+')       
         begin 
             while line = @sock.gets
-    	    output.puts(line.chomp)
+    	    @output.puts(line.chomp)
     	    puts line
-    	    end
+	    puts "#{times}" + "times"
+	    times = times + 1
+
+	        #if line =~ /<database>(.*)<\/database>/
+	        if  /<database>(.*)<\/database>/ =~ line
+	            puts "matched the database " + $1
+		    @recode = $1
+		    @recode.lstrip   # remove the whitespace in left and right
+		    @recode.rstrip
+		    
+                end
+         
+	        if  /<user>(.*)<\/user>/ =~ line
+	            puts "matched the user " + $1
+		    @remsg = $1
+		    @recode.lstrip
+		    @recode.rstrip
+                end
+
+            end
         rescue Exception =>e
 	    puts "ERROR: read socket error : " + "#{@requestfile}"; #in some case it will encounter conn reset by peer exp.
             puts e.message
@@ -106,6 +128,14 @@ class EtcRequest
 # verfiy the expected the result.
 ########################################################
     def verify_result()
+        if @recode ==  @expect_code
+            @output.puts "Verification Success"
+            puts "Verification Success"
+
+        else
+            @output.puts "ERROR: Verification Failiure errorcode:" + @recode + "    errormsg:" +  @remsg
+	    puts "ERROR: Verification Failiure error code:" + @recode + "    errormsg:" +  @remsg
+	end
 
     end
 end

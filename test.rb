@@ -1,11 +1,19 @@
 #! /usr/bin/ruby -w 
 
+$LOAD_PATH << '.'
+require 'etcrequest'
+require 'socket'      # Sockets 是标准库
 require 'rexml/document'
+require 'etcrequest'
+
 include REXML
 
+
 puts "hello world"
-xmlfile = File.new("./config.xml")
+xmlfile = File.new("./test.xml")
 xmldoc = Document.new(xmlfile)
+
+
 
 =begin
  # 获取 root 元素
@@ -17,6 +25,7 @@ xmldoc = Document.new(xmlfile)
   |e| puts "Movie Title : " + e.attributes["title"] 
  }
       
+
 # 以下将输出所有电影类型
 xmldoc.elements.each("collection/movie/type") {
 |e| puts "Movie Type : " + e.text 
@@ -28,7 +37,7 @@ xmldoc.elements.each("collection/movie/type") {
 }
 =end
 
-# 第一个电影的信息
+=begin
 msgclient = XPath.first(xmldoc, "//msgclient")
 p msgclient
 
@@ -36,7 +45,21 @@ url = XPath.first(msgclient, "//url")
 p url
 
 puts "url element : " + url.text
+=end
 
+xmldoc.elements.each("conf/testcases/case"){ 
+  |e| puts "case file : " + e.attributes["file"] 
+      puts "case exptcode:" + e.attributes["exptcode"]
+      
+      file = e.attributes["file"]
+      exptcode = e.attributes["exptcode"]
+
+      req = EtcRequest.new(file, exptcode)
+      #req = EtcRequest.new("CMakeLists.txt", 900)
+      #req = FragSendEtcRequest.new("read_A1.xml", 900)
+      req.run_case()
+}
+ 
 =begin
  # 打印所有电影类型
  XPath.each(xmldoc, "//type") { |e| puts e.text }
