@@ -2,10 +2,10 @@
 
 class EtcRequest
 
-   # @@ip= '10.1.3.55'
-   # @@port = 20170;
-    @@ip= 'localhost'
-    @@port = 2000;
+    @@ip= '10.1.3.55'
+    @@port = 20170;
+    #@@ip= 'localhost'
+    #@@port = 2000;
     @@template_base_dir = "./request_template/normal/";
     @@output_base_dir = "./output/normal/";
 
@@ -86,7 +86,7 @@ class EtcRequest
             while line = @sock.gets
     	    @output.puts(line.chomp)
     	    puts line
-	    puts "#{times}" + "times"
+	    #puts "#{times}" + "times"
 	    times = times + 1
 
 	        #if line =~ /<database>(.*)<\/database>/
