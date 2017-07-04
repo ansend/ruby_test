@@ -5,9 +5,9 @@
         <TransactionTimestamp>2016-04-19 18:51:31</TransactionTimestamp>
         <ChannelId>02</ChannelId>
         <SeqNo>101384272</SeqNo>
-        <ComId>A2</ComId>
     </Head>
     <Body>
+        <ComId>A2</ComId>
         <UserName>ansen</UserName>
         <IdNo>650105197506242219</IdNo>
         <MobilePhone>15112121121</MobilePhone>

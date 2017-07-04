@@ -1,7 +1,7 @@
 #! /usr/bin/ruby -w
 
 class EtcRequest
-
+    #@@ip= '192.168.13.105'
     @@ip= '10.1.3.55'
     @@port = 20170;
     #@@ip= 'localhost'
@@ -59,7 +59,7 @@ class EtcRequest
         begin
             xmlfile = File.new("#{@requestfile}")       
             if xmlfile
-	       puts "open file : " + "#{@requestfile}" + "sucessfullly"
+	       puts "open file : " + "#{@requestfile}" + "  sucessfullly"
 	    end
 	rescue Exception => e
 	    puts "ERROR: not existing request file: " + "#{@requestfile}";
@@ -72,7 +72,7 @@ class EtcRequest
 	    packet = packet + line.chomp   
 	end
 
-	    @sock.puts(packet)
+	    @sock.write(packet)
 	puts "INFO: sending packet done"
     end
 
@@ -86,7 +86,7 @@ class EtcRequest
             while line = @sock.gets
     	    @output.puts(line.chomp)
     	    puts line
-	    #puts "#{times}" + "times"
+	    puts "#{times}" + "times"
 	    times = times + 1
 
 	        #if line =~ /<database>(.*)<\/database>/
@@ -98,12 +98,17 @@ class EtcRequest
 		    
                 end
          
-	        if  /<user>(.*)<\/user>/ =~ line
+            if  /<user>(.*)<\/user>/ =~ line
 	            puts "matched the user " + $1
 		    @remsg = $1
 		    @recode.lstrip
 		    @recode.rstrip
-                end
+            end
+
+            if  (line =~ /<\/Message>(.*)/)
+                puts "at end of the package" 
+                break
+            end
 
             end
         rescue Exception =>e
@@ -113,15 +118,14 @@ class EtcRequest
 	    @sock.close()
 	    return 
         end 
-	puts "INFO: packet recv done"
-	#puts  "return 0 from the remote socket , ready to close it"
-	@sock.close()
+        puts "INFO: packet recv done"
+        #puts  "return 0 from the remote socket , ready to close it"
+        @sock.close()
     end
 
     def set_ip_port(ip, port)
-
-         @@ip = ip;
-	 @@port = port;
+        @@ip = ip;
+        @@port = port;
     end
  
 ########################################################
@@ -174,10 +178,65 @@ class FragSendEtcRequest < EtcRequest
 	    return
 	end
 	while line = xmlfile.gets
-	    @sock.puts(line.chomp)
+	    @sock.write(line.chomp)
 	end
 
 	puts "INFO: sending packet done"
+    end
+
+end
+
+
+
+#*******************************************************
+# sub class to recv_packet in big buffer
+#********************************************************
+
+class BuffReadEtcRequest < EtcRequest
+########################################################
+# redefine start to recv  packet using big buffer
+########################################################
+
+    def recv_packet()
+        times = 0;
+        @output = File.new("#{@outfile}", 'w+')       
+        begin 
+            while line = @sock.recv(8192)
+    	    @output.puts(line.chomp)
+    	    puts line
+            puts "#{times}" + "times"
+            times = times + 1
+
+	        if  /<database>(.*)<\/database>/m =~ line
+	        puts "matched the database " + $1
+		    @recode = $1
+		    @recode.lstrip   # remove the whitespace in left and right
+		    @recode.rstrip
+            end
+         
+            if  /<user>(.*)<\/user>/m =~ line
+	        puts "matched the user " + $1
+		    @remsg = $1
+		    @recode.lstrip
+		    @recode.rstrip
+            end
+
+            if  (line =~ /<\/Message>(.*)/m)
+            puts "at end of the package" 
+            break
+            end
+
+            end
+        rescue Exception =>e
+	        puts "ERROR: read socket error : " + "#{@requestfile}"; #in some case it will encounter conn reset by peer exp.
+            puts e.message
+	        puts e.backtrace.inspect
+	        @sock.close()
+	        return 
+        end 
+        puts "INFO: packet recv done"
+        #puts  "return 0 from the remote socket , ready to close it"
+        @sock.close()
     end
 
 end
