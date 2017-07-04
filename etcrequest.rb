@@ -12,68 +12,69 @@ class EtcRequest
     def EtcRequest.init_config(ip, port, tmp_base_dir, out_base_dir)
    
         @@ip = ip
-	@@port = port
-	@@template_base_dir = tmp_base_dir
-	@@output_base_dir = out_base_dir
+        @@port = port
+        @@template_base_dir = tmp_base_dir
+        @@output_base_dir = out_base_dir
     end
 
     def initialize(file, expcode)
-	@requestfile = file
+        @requestfile = file
         @outfile = file.delete(".xml") + ".out"
 
-	@requestfile = "#{@@template_base_dir}" +  @requestfile
-	puts @requestfile
+        @requestfile = "#{@@template_base_dir}" +  @requestfile
+        puts @requestfile
 
-	@outfile = @@output_base_dir +  @outfile
-	puts @outfile
-	@expect_code = expcode  # expect response code , 900~999
-	#@sock = TCPSocket.open(@@ip, @@port)
+        @outfile = @@output_base_dir +  @outfile
+        puts @outfile
+        @expect_code = expcode  # expect response code , 900~999
+        #@sock = TCPSocket.open(@@ip, @@port)
         @sock = nil
-	@output = nil
-	@recode = ""
-	@remsg = ""
+        @output = nil
+        @recode = ""
+        @remsg = ""
     end
 
     def run_case()
         send_packet()
-	recv_packet()
-	verify_result()
+        recv_packet()
+        verify_result()
     end
 
 ########################################################
 # start to send packet to server
 ########################################################
     def send_packet()
- 
         puts "INFO: start to connecting to server"
         begin 
-	    @sock = TCPSocket.open(@@ip, @@port)
+            @sock = TCPSocket.open(@@ip, @@port)
         rescue Exception => e
 
             puts "ERROR: connection to server failed"
-	    puts e.message
-	    puts e.backtrace.inspect
-	    return
-	end
+            puts e.message
+            puts e.backtrace.inspect
+            return
+        end
+       
         puts "Info: connection established "
         begin
             xmlfile = File.new("#{@requestfile}")       
             if xmlfile
-	       puts "open file : " + "#{@requestfile}" + "  sucessfullly"
-	    end
-	rescue Exception => e
-	    puts "ERROR: not existing request file: " + "#{@requestfile}";
-	    puts e.message
-	    puts e.backtrace.inspect
-	    return
-	end
+            puts "open file : " + "#{@requestfile}" + "  sucessfullly"
+            end
+        rescue Exception => e
+            puts "ERROR: not existing request file: " + "#{@requestfile}";
+            puts e.message
+            puts e.backtrace.inspect
+            return
+        end
+       
         packet = ""
-	while line = xmlfile.gets
-	    packet = packet + line.chomp   
-	end
+        while line = xmlfile.gets
+            packet = packet + line.chomp   
+        end
 
-	    @sock.write(packet)
-	puts "INFO: sending packet done"
+        @sock.write(packet)
+        puts "INFO: sending packet done"
     end
 
 ########################################################
@@ -84,40 +85,39 @@ class EtcRequest
         @output = File.new("#{@outfile}", 'w+')       
         begin 
             while line = @sock.gets
-    	    @output.puts(line.chomp)
-    	    puts line
-	    puts "#{times}" + "times"
-	    times = times + 1
+                @output.puts(line.chomp)
+                puts line
+                puts "#{times}" + "times"
+                times = times + 1
 
-	        #if line =~ /<database>(.*)<\/database>/
-	        if  /<database>(.*)<\/database>/ =~ line
-	            puts "matched the database " + $1
-		    @recode = $1
-		    @recode.lstrip   # remove the whitespace in left and right
-		    @recode.rstrip
-		    
+                if  /<database>(.*)<\/database>/ =~ line
+                    puts "matched the database " + $1
+                    @recode = $1
+                    @recode.lstrip   # remove the whitespace in left and right
+                    @recode.rstrip
                 end
          
-            if  /<user>(.*)<\/user>/ =~ line
-	            puts "matched the user " + $1
-		    @remsg = $1
-		    @recode.lstrip
-		    @recode.rstrip
-            end
+                if  /<user>(.*)<\/user>/ =~ line
+                    puts "matched the user " + $1
+                    @remsg = $1
+                    @recode.lstrip
+                    @recode.rstrip
+                end
 
-            if  (line =~ /<\/Message>(.*)/)
-                puts "at end of the package" 
-                break
-            end
+                if  (line =~ /<\/Message>(.*)/)
+                    puts "at end of the package" 
+                    break
+                end
 
             end
         rescue Exception =>e
-	    puts "ERROR: read socket error : " + "#{@requestfile}"; #in some case it will encounter conn reset by peer exp.
+            puts "ERROR: read socket error : " + "#{@requestfile}"; #in some case it will encounter conn reset by peer exp.
             puts e.message
-	    puts e.backtrace.inspect
-	    @sock.close()
-	    return 
+            puts e.backtrace.inspect
+            @sock.close()
+            return 
         end 
+
         puts "INFO: packet recv done"
         #puts  "return 0 from the remote socket , ready to close it"
         @sock.close()
@@ -138,8 +138,8 @@ class EtcRequest
 
         else
             @output.puts "ERROR: Verification Failiure errorcode:" + @recode + "    errormsg:" +  @remsg
-	    puts "ERROR: Verification Failiure error code:" + @recode + "    errormsg:" +  @remsg
-	end
+        puts "ERROR: Verification Failiure error code:" + @recode + "    errormsg:" +  @remsg
+        end
 
     end
 end
@@ -157,31 +157,33 @@ class FragSendEtcRequest < EtcRequest
  
         puts "INFO: start to connecting to server"
         begin 
-	    @sock = TCPSocket.open(@@ip, @@port)
-        rescue Exception => e
+            @sock = TCPSocket.open(@@ip, @@port)
+            rescue Exception => e
 
             puts "ERROR: connection to server failed"
-	    puts e.message
-	    puts e.backtrace.inspect
-	    return
-	end
+            puts e.message
+            puts e.backtrace.inspect
+            return
+        end
+
         puts "Info: connection established "
         begin
             xmlfile = File.new("#{@requestfile}")       
             if xmlfile
-	       puts "open file : " + "#{@requestfile}" + "sucessfullly"
-	    end
-	rescue Exception => e
-	    puts "ERROR: not existing request file: " + "#{@requestfile}";
-	    puts e.message
-	    puts e.backtrace.inspect
-	    return
-	end
-	while line = xmlfile.gets
-	    @sock.write(line.chomp)
-	end
+            puts "open file : " + "#{@requestfile}" + "sucessfullly"
+            end
+        rescue Exception => e
+            puts "ERROR: not existing request file: " + "#{@requestfile}";
+            puts e.message
+            puts e.backtrace.inspect
+            return
+        end
 
-	puts "INFO: sending packet done"
+        while line = xmlfile.gets
+            @sock.write(line.chomp)
+        end
+
+        puts "INFO: sending packet done"
     end
 
 end
@@ -202,38 +204,39 @@ class BuffReadEtcRequest < EtcRequest
         @output = File.new("#{@outfile}", 'w+')       
         begin 
             while line = @sock.recv(8192)
-    	    @output.puts(line.chomp)
-    	    puts line
-            puts "#{times}" + "times"
-            times = times + 1
+                @output.puts(line.chomp)
+                puts line
+                puts "#{times}" + "times"
+                times = times + 1
 
-	        if  /<database>(.*)<\/database>/m =~ line
-	        puts "matched the database " + $1
-		    @recode = $1
-		    @recode.lstrip   # remove the whitespace in left and right
-		    @recode.rstrip
-            end
+                if  /<database>(.*)<\/database>/m =~ line
+                    puts "matched the database " + $1
+                    @recode = $1
+                    @recode.lstrip   # remove the whitespace in left and right
+                    @recode.rstrip
+                end
          
-            if  /<user>(.*)<\/user>/m =~ line
-	        puts "matched the user " + $1
-		    @remsg = $1
-		    @recode.lstrip
-		    @recode.rstrip
-            end
+                if  /<user>(.*)<\/user>/m =~ line
+                    puts "matched the user " + $1
+                    @remsg = $1
+                    @recode.lstrip
+                    @recode.rstrip
+                end
 
-            if  (line =~ /<\/Message>(.*)/m)
-            puts "at end of the package" 
-            break
-            end
+                if  (line =~ /<\/Message>(.*)/m)
+                    puts "at end of the package" 
+                    break
+                end
 
             end
         rescue Exception =>e
-	        puts "ERROR: read socket error : " + "#{@requestfile}"; #in some case it will encounter conn reset by peer exp.
+            puts "ERROR: read socket error : " + "#{@requestfile}"; #in some case it will encounter conn reset by peer exp.
             puts e.message
-	        puts e.backtrace.inspect
-	        @sock.close()
-	        return 
+            puts e.backtrace.inspect
+            @sock.close()
+            return 
         end 
+
         puts "INFO: packet recv done"
         #puts  "return 0 from the remote socket , ready to close it"
         @sock.close()
