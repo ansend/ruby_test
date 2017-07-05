@@ -5,12 +5,9 @@
 <TransactionTimestamp>2016-04-19 18:51:31</TransactionTimestamp>
 <ChannelId>02</ChannelId>
 <SeqNo>101384257</SeqNo>
-<ComId>B4</ComId>
-<ComRe>33098014BE0011C034343032313634363131303130303034F018914E<ComRe>
 </Head>
 <Body>
-<UserName>ansen</UserName>
-<IdNo>650105197506242219</IdNo>
-<MobilePhone>15112121121</MobilePhone>
+<ComId>B4</ComId>
+<ComRe>33098014BE0011C034343032313634363131303130303034F018914E</ComRe>
 </Body>
 </Message>
