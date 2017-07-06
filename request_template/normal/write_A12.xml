@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Message>
 <Head>
-<TransName>WXYH01</TransName>
+<TransName>A12</TransName>
 <TransactionTimestamp>2016-04-19 18:51:31</TransactionTimestamp>
 <ChannelId>02</ChannelId>
 <SeqNo>101384257</SeqNo>
-<ComId>A12</ComId>
-<Credit>14</Credit>
-<TerminalNo>1234</TerminalNo>
-<ProcType>EP</ProcType> <!-- EP or ED -->
-<KeyIndex>12345</KeyIndex>
 </Head>
 <Body>
-<UserName>王世骏</UserName>
-<IdNo>650105197506242219</IdNo>
-<MobilePhone>15112121121</MobilePhone>
+<ComId>A12</ComId>
+<Credit>14</Credit>
+<TerminalNo>1234567890ab</TerminalNo> <!--width 12 -->
+<ProcType>01</ProcType> <!-- EP or ED -->
+<KeyIndex>12345</KeyIndex>
 </Body>
 </Message>
