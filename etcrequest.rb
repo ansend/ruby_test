@@ -1,8 +1,9 @@
 #! /usr/bin/ruby -w
 
 class EtcRequest
-    #@@ip= '192.168.13.105'
-    @@ip= '10.1.3.55'
+    #@@ip= '192.168.56.1'
+    @@ip= '192.168.13.105'
+    #@@ip= '10.1.3.55'
     @@port = 20170;
     #@@ip= 'localhost'
     #@@port = 2000;
@@ -132,13 +133,22 @@ class EtcRequest
 # verfiy the expected the result.
 ########################################################
     def verify_result()
-        if @recode ==  @expect_code
+        #puts "{#@recode}" "return code"
+        #puts "{#@expect_code}" "expect code"
+        # method to show object's type, include both basic type and class type.
+        #puts @recode.class
+        #puts @expect_code.class
+        # to_i to interger
+        # to_f to float
+        # to_s to string
+        
+        if @recode ==  @expect_code.to_s
             @output.puts "Verification Success"
             puts "Verification Success"
 
         else
             @output.puts "ERROR: Verification Failiure errorcode:" + @recode + "    errormsg:" +  @remsg
-        puts "ERROR: Verification Failiure error code:" + @recode + "    errormsg:" +  @remsg
+            puts "ERROR: Verification Failiure error code:" + @recode + "    errormsg:" +  @remsg
         end
 
     end
@@ -209,22 +219,22 @@ class BuffReadEtcRequest < EtcRequest
                 puts "#{times}" + "times"
                 times = times + 1
 
-                if  /<database>(.*)<\/database>/m =~ line
-                    puts "matched the database " + $1
+                if  /<_RejCode>(.*)<\/_RejCode>/m =~ line
+                    puts "Matched the RejCode " + $1
                     @recode = $1
                     @recode.lstrip   # remove the whitespace in left and right
                     @recode.rstrip
                 end
          
-                if  /<user>(.*)<\/user>/m =~ line
-                    puts "matched the user " + $1
+                if  /<_RejMsg>(.*)<\/_RejMsg>/m =~ line
+                    puts "Matched the RejMsg " + $1
                     @remsg = $1
-                    @recode.lstrip
-                    @recode.rstrip
+                    @remsg.lstrip
+                    @remsg.rstrip
                 end
 
                 if  (line =~ /<\/Message>(.*)/m)
-                    puts "at end of the package" 
+                    puts "At end of the package" 
                     break
                 end
 
@@ -239,7 +249,7 @@ class BuffReadEtcRequest < EtcRequest
 
         puts "INFO: packet recv done"
         #puts  "return 0 from the remote socket , ready to close it"
-        @sock.close()
+        @sock.close
     end
 
 end
