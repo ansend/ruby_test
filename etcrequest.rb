@@ -17,6 +17,13 @@ class EtcRequest
         @@template_base_dir = tmp_base_dir
         @@output_base_dir = out_base_dir
     end
+    
+    def EtcRequest.print_config()
+        puts @@ip
+        puts @@port
+        puts @@template_base_dir
+        puts @@output_base_dir
+    end   
 
     def initialize(file, expcode)
         @requestfile = file
