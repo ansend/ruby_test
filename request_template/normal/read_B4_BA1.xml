@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Message>
+<Head>
+<TransName>B4</TransName>
+<TransactionTimestamp>2016-04-19 18:51:31</TransactionTimestamp>
+<ChannelId>02</ChannelId>
+<SeqNo>101384257</SeqNo>
+</Head>
+<Body>
+<ComId>BA1</ComId>
+<ComRe>3307800ABE0007C6D0B5C2EE68BA69</ComRe>
+</Body>
+</Message>
