@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Message>
+    <Head>
+        <TransName>A109</TransName>
+        <TransactionTimestamp>2016-04-19 18:51:31</TransactionTimestamp>
+        <ChannelId>02</ChannelId>
+        <SeqNo>101384257</SeqNo>
+    </Head>
+    <Body>
+        <ComId>A1</ComId>
+        <UserName>王世安</UserName>
+        <IdNo>650105197506242219</IdNo>
+        <MobilePhone>15112121121</MobilePhone>
+    </Body>
+</Message>
