@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<conf>
+     <ip>192.168.13.105</ip>
+     <port>20170</port>
+     <dest_temp_dir>./request_template/normal/</dest_temp_dir>
+     <dest_output_dir>./output/normal/</dest_output_dir>
+	<testcases>
+	   <case file="read_A1.xml" exptcode="900" />
+	   <case file="read_B1.xml" exptcode="900" />
+	   <case file="read_A2.xml" exptcode="900" />
+	   <case file="read_B2.xml" exptcode="900" />
+	   <case file="read_A3.xml" exptcode="900" />
+           <case file="read_B3.xml" exptcode="900" />
+   	   <case file="write_A11.xml" exptcode="900" />
+           <case file="write_B11.xml" exptcode="900" />
+   	   <case file="write_A12.xml" exptcode="900" />
+           <case file="write_B12.xml" exptcode="900" />
+   	   <case file="write_A13.xml" exptcode="900" />
+           <case file="write_B13.xml" exptcode="900" />
+   </testcases>
+</conf>
+

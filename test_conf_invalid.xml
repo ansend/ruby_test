@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<conf>
+     <ip>192.168.13.116</ip>
+     <port>20170</port>
+     <dest_temp_dir>./request_template/invalid/</dest_temp_dir>
+     <dest_output_dir>./output/invalid/</dest_output_dir>
+	<testcases>
+	   <case file="in_read_A1_903.xml" exptcode="903" />
+	   <case file="in_read_A4_904.xml" exptcode="904" />
+	   <case file="in_read_B3_corrupt_998.xml" exptcode="998" />
+	   <case file="in_read_A1_999.xml" exptcode="999" />
+           <case file="in_read_B3_901.xml" exptcode="901" />
+   	   <case file="in_read_B1_checksum_901.xml" exptcode="901" />
+           <case file="in_read_B3_02.xml" exptcode="901" />
+   	   <case file="in_read_B3_03.xml" exptcode="901" />
+           <case file="in_read_B3_04.xml" exptcode="901" />
+   	   <case file="in_read_B3_06.xml" exptcode="901" />
+           <case file="in_read_B3_40.xml" exptcode="901" />
+           <case file="in_write_B11_03.xml" exptcode="901" />
+   </testcases>
+</conf>
+
