@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <conf>
-     <ip>192.168.13.116</ip>
+     <ip>10.1.3.141</ip>
      <port>20170</port>
      <dest_temp_dir>./request_template/invalid/</dest_temp_dir>
      <dest_output_dir>./output/invalid/</dest_output_dir>

@@ -8,30 +8,26 @@ require 'etcrequest'
 
 include REXML
 
-
-puts "hello world"
+puts "******start normal message test ********"
 xmlfile = File.new("./test_conf_normal.xml")
 xmldoc = Document.new(xmlfile)
 
 
-
 =begin
- # 获取 root 元素
+ # get root element
  root = xmldoc.root
  puts "Root element : " + root.attributes["shelf"]
-  
- # 以下将输出电影标题
+ # out put the attibutes
  xmldoc.elements.each("collection/movie"){ 
   |e| puts "Movie Title : " + e.attributes["title"] 
  }
       
-
-# 以下将输出所有电影类型
+# out put all the sub element
 xmldoc.elements.each("collection/movie/type") {
 |e| puts "Movie Type : " + e.text 
  }
 	  
-  # 以下将输出所有电影描述
+  # content of the element
   xmldoc.elements.each("collection/movie/description") {
      |e| puts "Movie Description : " + e.text 
 }
@@ -40,10 +36,8 @@ xmldoc.elements.each("collection/movie/type") {
 =begin
 msgclient = XPath.first(xmldoc, "//msgclient")
 p msgclient
-
 url = XPath.first(msgclient, "//url")
 p url
-
 puts "url element : " + url.text
 =end
 
@@ -85,10 +79,9 @@ xmldoc.elements.each("conf/testcases/case"){
 #**************************************************************
 
 =begin
- # 打印所有电影类型
- XPath.each(xmldoc, "//type") { |e| puts e.text }
-  
-  # 获取所有电影格式的类型，返回数组
+  #
+  XPath.each(xmldoc, "//type") { |e| puts e.text }
+  # return a array
   names = XPath.match(xmldoc, "//format").map {|x| x.text }
   p names
 =end

@@ -2,13 +2,17 @@
 
 class EtcRequest
     #@@ip= '192.168.56.1'
-    @@ip= '192.168.13.105'
+    @@ip= '10.1.3.141'
     #@@ip= '10.1.3.55'
     @@port = 20170;
     #@@ip= 'localhost'
     #@@port = 2000;
-    @@template_base_dir = "./request_template/normal/";
-    @@output_base_dir = "./output/normal/";
+   
+    #@@template_base_dir = "./request_template/normal/";
+    #@@output_base_dir = "./output/normal/";
+    
+    @@template_base_dir = "./request_template/invalid/";
+    @@output_base_dir = "./output/invalid/";
 
     def EtcRequest.init_config(ip, port, tmp_base_dir, out_base_dir)
    
@@ -27,7 +31,7 @@ class EtcRequest
 
     def initialize(file, expcode)
         @requestfile = file
-        @outfile = file.delete(".xml") + ".out"
+        @outfile = file.sub(/.xml/,'') + ".out"
 
         @requestfile = "#{@@template_base_dir}" +  @requestfile
         puts @requestfile
@@ -80,6 +84,9 @@ class EtcRequest
         while line = xmlfile.gets
             packet = packet + line.chomp   
         end
+
+        #packet = packet + "\n\r"
+        puts "#{packet}"
 
         @sock.write(packet)
         puts "INFO: sending packet done"

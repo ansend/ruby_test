@@ -9,33 +9,14 @@ require 'etcrequest'
 include REXML
 
 
-puts "hello world"
+puts "start invalid message test"
 xmlfile = File.new("./test_conf_invalid.xml")
 xmldoc = Document.new(xmlfile)
 
-
-
-=begin
-msgclient = XPath.first(xmldoc, "//msgclient")
-p msgclient
-
-url = XPath.first(msgclient, "//url")
-p url
-
-puts "url element : " + url.text
-=end
-
 ip = XPath.first(xmldoc, "//ip")
-p  ip           
-                
 port = XPath.first(xmldoc, "//port")
-p port          
-
 dest_dir = XPath.first(xmldoc, "//dest_temp_dir")
-p dest_dir
-
 dest_out = XPath.first(xmldoc, "//dest_output_dir")
-p dest_out
 
 puts "ip :" + ip.text
 puts "port:" + port.text
@@ -62,11 +43,3 @@ xmldoc.elements.each("conf/testcases/case"){
 }
 #**************************************************************
 
-=begin
- # 打印所有电影类型
- XPath.each(xmldoc, "//type") { |e| puts e.text }
-  
-  # 获取所有电影格式的类型，返回数组
-  names = XPath.match(xmldoc, "//format").map {|x| x.text }
-  p names
-=end
