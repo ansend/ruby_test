@@ -7,6 +7,7 @@
 	<testcases>
 	   <case file="in_read_A1_903.xml" exptcode="903" />
 	   <case file="in_read_A4_904.xml" exptcode="904" />
+	   <case file="in_read_A1_905.xml" exptcode="905" />
 	   <case file="in_read_B3_corrupt_998.xml" exptcode="998" />
 	   <case file="in_read_A1_999.xml" exptcode="999" />
            <case file="in_read_B3_901.xml" exptcode="901" />

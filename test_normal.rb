@@ -10,7 +10,7 @@ include REXML
 
 
 puts "hello world"
-xmlfile = File.new("./test_normal_conf.xml")
+xmlfile = File.new("./test_conf_normal.xml")
 xmldoc = Document.new(xmlfile)
 
 
