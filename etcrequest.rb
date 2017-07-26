@@ -8,11 +8,11 @@ class EtcRequest
     #@@ip= 'localhost'
     #@@port = 2000;
    
-    #@@template_base_dir = "./request_template/normal/";
-    #@@output_base_dir = "./output/normal/";
+    @@template_base_dir = "./request_template/normal/";
+    @@output_base_dir = "./output/normal/";
     
-    @@template_base_dir = "./request_template/invalid/";
-    @@output_base_dir = "./output/invalid/";
+    #@@template_base_dir = "./request_template/invalid/";
+    #@@output_base_dir = "./output/invalid/";
 
     def EtcRequest.init_config(ip, port, tmp_base_dir, out_base_dir)
    
@@ -85,7 +85,7 @@ class EtcRequest
             packet = packet + line.chomp   
         end
 
-        #packet = packet + "\n\r"
+        packet = packet + "\r\n"
         puts "#{packet}"
 
         @sock.write(packet)
@@ -98,22 +98,23 @@ class EtcRequest
     def recv_packet()
         times = 0;
         @output = File.new("#{@outfile}", 'w+')       
+        puts "start to recv packet"
         begin 
-            while line = @sock.gets
+            while line = @sock.recv(8192)
                 @output.puts(line.chomp)
                 puts line
                 puts "#{times}" + "times"
                 times = times + 1
 
-                if  /<database>(.*)<\/database>/ =~ line
-                    puts "matched the database " + $1
+                if  /<_RejCode>(.*)<\/_RejCode>/ =~ line
+                    puts "matched the _RejCode " + $1
                     @recode = $1
                     @recode.lstrip   # remove the whitespace in left and right
                     @recode.rstrip
                 end
          
-                if  /<user>(.*)<\/user>/ =~ line
-                    puts "matched the user " + $1
+                if  /<_RejCode>(.*)<\/_RejCode>/ =~ line
+                    puts "matched the _RejCode " + $1
                     @remsg = $1
                     @recode.lstrip
                     @recode.rstrip
@@ -205,13 +206,14 @@ class FragSendEtcRequest < EtcRequest
 
         while line = xmlfile.gets
             @sock.write(line.chomp)
+            puts "#{line.chomp}"
+            #sleep 1
         end
 
         puts "INFO: sending packet done"
     end
 
 end
-
 
 
 #*******************************************************
