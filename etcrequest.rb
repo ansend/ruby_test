@@ -106,6 +106,13 @@ class EtcRequest
                 puts "#{times}" + "times"
                 times = times + 1
 
+                len = line.length
+                puts "length of packet : " + "#{len}"
+                 
+                if(len <= 4)
+                    puts "hex value of packet: " + "#{line.hex}"
+                end 
+
                 if  /<_RejCode>(.*)<\/_RejCode>/ =~ line
                     puts "matched the _RejCode " + $1
                     @recode = $1
@@ -229,12 +236,25 @@ class BuffReadEtcRequest < EtcRequest
         times = 0;
         @output = File.new("#{@outfile}", 'w+')       
         begin 
+            # what the fuck!!!!
+            # on remote close socket, recv will return a empty string as ""
+            # on remote close socket, gets and read will return a nil
+            # so, if "recv" function used, you must judge the length of the 
+            # returned string to identify a remote passive close.
             while line = @sock.recv(8192)
+                puts "line class: " + "#{line.class}"
                 @output.puts(line.chomp)
                 puts line
                 puts "#{times}" + "times"
                 times = times + 1
 
+                len = line.length
+                puts "length of packet : " + "#{len}"
+                if (len == 0)
+                    puts "INFO: remote peer close the socket"
+                    break
+                end
+               
                 if  /<_RejCode>(.*)<\/_RejCode>/m =~ line
                     puts "Matched the RejCode " + $1
                     @recode = $1
