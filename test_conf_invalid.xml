@@ -8,7 +8,7 @@
 	   <case file="in_read_A1_903.xml" exptcode="903" />
 	   <case file="in_read_A4_904.xml" exptcode="904" />
 	   <case file="in_read_A1_905.xml" exptcode="905" />
-	   <case file="in_read_B3_corrupt_998.xml" exptcode="998" />
+	   <case file="in_read_B3_0E.xml" exptcode="901" />
 	   <case file="in_read_A1_999.xml" exptcode="999" />
            <case file="in_read_B3_901.xml" exptcode="901" />
    	   <case file="in_read_B1_checksum_901.xml" exptcode="901" />
@@ -16,6 +16,8 @@
    	   <case file="in_read_B3_03.xml" exptcode="901" />
            <case file="in_read_B3_04.xml" exptcode="901" />
    	   <case file="in_read_B3_06.xml" exptcode="901" />
+   	   <case file="in_read_B3_07.xml" exptcode="901" />
+   	   <case file="in_read_B3_08.xml" exptcode="901" />
            <case file="in_read_B3_40.xml" exptcode="901" />
            <case file="in_write_B11_03.xml" exptcode="901" />
    </testcases>
