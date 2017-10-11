@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Message>
 <Head>
-<TransName>A12</TransName>
+<TransName>A5</TransName>
 <TransactionTimestamp>2016-04-19 18:51:31</TransactionTimestamp>
 <ChannelId>02</ChannelId>
 <SeqNo>101384257</SeqNo>
 </Head>
 <Body>
-<ComId>A12</ComId>
-<Credit>900</Credit>
-<TerminalNo>1234567890ab</TerminalNo> <!--width 12 -->
-<ProcType>01</ProcType> <!-- EP or ED -->
-<KeyIndex>02</KeyIndex>
+<ComId>A5</ComId>
+<ComRd>123456</ComRd>
+<ComMac>4023BDC6</ComMac>
 </Body>
 </Message>
