@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Message>
 <Head>
-<TransName>A11</TransName>
+<TransName>B0</TransName>
 <TransactionTimestamp>2016-04-19 18:51:31</TransactionTimestamp>
 <ChannelId>02</ChannelId>
 <SeqNo>101384257</SeqNo>
 </Head>
 <Body>
-<ComId>A11</ComId>
-<Pin>1234</Pin>
+<ComId>B0</ComId>
+<ComRe>33008005b20002640051</ComRe>
 </Body>
 </Message>

@@ -8,6 +8,6 @@
 </Head>
 <Body>
 <ComId>A21</ComId>
-<ComCode>A7</ComCode>
+<ComCode>00A40000021001</ComCode> <!-- it's the content of A1 interface enter entry 1001-->
 </Body>
 </Message>
